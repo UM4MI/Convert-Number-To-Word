@@ -1,0 +1,7 @@
+C:\Users\Laga_DP181\Documents\Visual Studio 2012\Projects\ConsoleApplication2\UnitTestProject2\bin\Debug\UnitTestProject2.dll
+C:\Users\Laga_DP181\Documents\Visual Studio 2012\Projects\ConsoleApplication2\UnitTestProject2\bin\Debug\UnitTestProject2.pdb
+C:\Users\Laga_DP181\Documents\Visual Studio 2012\Projects\ConsoleApplication2\UnitTestProject2\bin\Debug\ConsoleApplication2.exe
+C:\Users\Laga_DP181\Documents\Visual Studio 2012\Projects\ConsoleApplication2\UnitTestProject2\bin\Debug\ConsoleApplication2.pdb
+C:\Users\Laga_DP181\Documents\Visual Studio 2012\Projects\ConsoleApplication2\UnitTestProject2\obj\Debug\UnitTestProject2.csprojResolveAssemblyReference.cache
+C:\Users\Laga_DP181\Documents\Visual Studio 2012\Projects\ConsoleApplication2\UnitTestProject2\obj\Debug\UnitTestProject2.dll
+C:\Users\Laga_DP181\Documents\Visual Studio 2012\Projects\ConsoleApplication2\UnitTestProject2\obj\Debug\UnitTestProject2.pdb
