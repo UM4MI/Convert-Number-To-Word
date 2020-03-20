@@ -11,6 +11,7 @@ namespace ConsoleApplication2
     {
         public string ToEnglish(UInt64 inputNumber, bool aboveQuintillion)
         {
+            //step 1
             switch (inputNumber)
             {
                 case 0: return "Zero";
@@ -90,31 +91,36 @@ namespace ConsoleApplication2
                     case 10000000000000000000: return "Ten Quintillion";
                 }
             }
-
-            for (UInt64 iteration = 1; iteration <= 9; iteration++)
+            //step 2
+            if (inputNumber < 100)
             {
-                UInt64 iterationMultipleByTen = iteration * 10;
-                if ((inputNumber >= iterationMultipleByTen) && (inputNumber < iterationMultipleByTen + 10))
+                for (UInt64 iteration = 1; iteration <= 9; iteration++)
                 {
-                    UInt64 r = inputNumber - iterationMultipleByTen;
-                    //iterationMultipleByTen puluhan r satuan
-                    return ToEnglish(iterationMultipleByTen, aboveQuintillion) + (r > 0 ? ("-" + ToEnglish(r, aboveQuintillion)) : "");
+                    UInt64 iterationMultipleByTen = iteration * 10;
+                    if ((inputNumber >= iterationMultipleByTen) && (inputNumber < iterationMultipleByTen + 10))
+                    {
+                        UInt64 remainder = inputNumber % iterationMultipleByTen;
+                        //iterationMultipleByTen puluhan remainder satuan
+                        return ToEnglish(iterationMultipleByTen, aboveQuintillion) + (remainder > 0 ? ("-" + ToEnglish(remainder, aboveQuintillion)) : "");
+                    }
                 }
             }
 
-            for (UInt64 iteration = 1; iteration <= 9; iteration++)
+            if (inputNumber < 1000)
             {
-                UInt64 iterationMultipleByTen = iteration * 100;
-                if ((inputNumber >= iterationMultipleByTen) && (inputNumber < iterationMultipleByTen + 100))
-                {
-                    UInt64 r = inputNumber - iterationMultipleByTen;
-                    // inputNumber ratusan , r sisa puluhan, loop ke iterasi puluhan
-                    return ToEnglish(iteration, aboveQuintillion) + " Hundred" + (r > 0 ? (" " + ToEnglish(r, aboveQuintillion)) : "");
+                for (UInt64 iteration = 1; iteration <= 9; iteration++)
+                {   
+                    UInt64 iterationMultipleByHundreed = iteration * 100;
+                    if ((inputNumber >= iterationMultipleByHundreed) && (inputNumber < iterationMultipleByHundreed + 100))
+                    {
+                        UInt64 remainder = inputNumber % iterationMultipleByHundreed;
+                        // inputNumber ratusan , remainder sisa puluhan, loop ke iterasi puluhan
+                        return ToEnglish(iteration, aboveQuintillion) + " Hundred" + (remainder > 0 ? (" " + ToEnglish(remainder, aboveQuintillion)) : "");
+                    }
                 }
             }
-
-            NumberToWordsProgram program = new NumberToWordsProgram();
-            return program.BigNumberWord(inputNumber, aboveQuintillion);
+           
+            return BigNumberWord(inputNumber, aboveQuintillion);
         }
         public string BigNumberWord(UInt64 inputNumber, bool quintillion)
         {
@@ -151,7 +157,6 @@ namespace ConsoleApplication2
                 }
                 kilo++;
             }
-
             return (output);
         }
         public string numberToWords(UInt64 num)
@@ -205,7 +210,7 @@ namespace ConsoleApplication2
 
             return values;
         }
-        private static void Exception(BusinessException std)
+        private static void Validation(BusinessException std)
         {
             string pattern = @"^[0-9]+$";
             Regex regex = new Regex(pattern);
@@ -229,7 +234,6 @@ namespace ConsoleApplication2
         }
         public string AboveQuintillion(String inputNumber, UInt64 decimalNumber)
         {
-            NumberToWordsProgram program = new NumberToWordsProgram();
             String beforeQuintillionStr = inputNumber.Substring(inputNumber.Length - 18);
             String afterQuintillionStr = inputNumber.Substring(0, inputNumber.Length - beforeQuintillionStr.Length);
             String quintillionStr = afterQuintillionStr.Substring(afterQuintillionStr.Length - 3);
@@ -241,37 +245,36 @@ namespace ConsoleApplication2
             if (decimalNumber == 0)
                 if (numberBeforeQuintilion == 0)
                 {
-                    return (program.numberToWordQuintillion(numberAfterQuintilion) + "Dollars");
+                    return (numberToWordQuintillion(numberAfterQuintilion) + "Dollars");
                 }
                 else if (quintillionNumber != 0)
                 {
-                    return (program.numberToWordQuintillion(numberAfterQuintilion) + " Quintillion " + program.numberToWords(numberBeforeQuintilion) + " Dollars ");
+                    return (numberToWordQuintillion(numberAfterQuintilion) + " Quintillion " + numberToWords(numberBeforeQuintilion) + " Dollars ");
                 }
                 else
                 {
-                    return (program.numberToWordQuintillion(numberAfterQuintilion) + program.numberToWords(numberBeforeQuintilion) + " Dollars ");
+                    return (numberToWordQuintillion(numberAfterQuintilion) + numberToWords(numberBeforeQuintilion) + " Dollars ");
                 }
 
             else
             {
                 if (numberBeforeQuintilion == 0)
                 {
-                    return (program.numberToWordQuintillion(numberAfterQuintilion) + "Dollars " + "and " + program.numberToWords(decimalNumber) + " Cents");
+                    return (numberToWordQuintillion(numberAfterQuintilion) + "Dollars " + "and " + numberToWords(decimalNumber) + " Cents");
                 }
                 else if (quintillionNumber != 0)
                 {
-                    return (program.numberToWordQuintillion(numberAfterQuintilion) + " Quintillion " + program.numberToWords(numberBeforeQuintilion) + " Dollars " + "and " + program.numberToWords(decimalNumber) + " Cents");
+                    return (numberToWordQuintillion(numberAfterQuintilion) + " Quintillion " + numberToWords(numberBeforeQuintilion) + " Dollars " + "and " + numberToWords(decimalNumber) + " Cents");
                 }
                 else
                 {
-                    return (program.numberToWordQuintillion(numberAfterQuintilion) + program.numberToWords(numberBeforeQuintilion) + " Dollars " + "and " + program.numberToWords(decimalNumber) + " Cents");
+                    return (numberToWordQuintillion(numberAfterQuintilion) + numberToWords(numberBeforeQuintilion) + " Dollars " + "and " + numberToWords(decimalNumber) + " Cents");
                 }
             }
 
         }
         public String BelowQuintillion(String inputNumber, UInt64 decimalNumber)
         {
-            NumberToWordsProgram program = new NumberToWordsProgram();
             UInt64 numberBeforeQuintilion = 0;
             string dollar = " Dollar ";
             numberBeforeQuintilion = UInt64.Parse(inputNumber);
@@ -282,15 +285,15 @@ namespace ConsoleApplication2
 
             if (decimalNumber == 0)
             {
-                return (program.numberToWords(numberBeforeQuintilion) + dollar);
+                return (numberToWords(numberBeforeQuintilion) + dollar);
             }
-            else if (numberBeforeQuintilion == 0 && !(decimalNumber == 0))
+            else if (numberBeforeQuintilion == 0 && decimalNumber > 0)
             {
-                return program.numberToWords(decimalNumber) + " Cents ";
+                return numberToWords(decimalNumber) + " Cents ";
             }
             else
             {
-                return (program.numberToWords(numberBeforeQuintilion) + dollar + "and " + program.numberToWords(decimalNumber) + " Cents ");
+                return (numberToWords(numberBeforeQuintilion) + dollar + "and " + numberToWords(decimalNumber) + " Cents ");
             }
         }
         public string ConvertToWords(string input)
@@ -304,7 +307,7 @@ namespace ConsoleApplication2
                 exception = new BusinessException();
                 exception.stringNumber = results.dollar;
                 exception.stringDecimalNumber = results.cent;
-                Exception(exception);
+                Validation(exception);
             }
             catch (InvalidInputNumberException e)
             {
@@ -322,18 +325,17 @@ namespace ConsoleApplication2
             {
                 return (e.Message);
             }
-            NumberToWordsProgram program = new NumberToWordsProgram();
             inputNumber = results.dollar;
             UInt64 decimalNumber = UInt64.Parse(results.cent);
             //above quintillion
             if (inputNumber.Length > 18)
             {
-                return program.AboveQuintillion(inputNumber, decimalNumber);
+                return AboveQuintillion(inputNumber, decimalNumber);
             }
             //below quintilion
             else
             {
-                return program.BelowQuintillion(inputNumber, decimalNumber);
+                return BelowQuintillion(inputNumber, decimalNumber);
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication2
 {
-    class BusinessException
+    public class BusinessException
     {
         public String stringNumber { get; set; }
         public String stringDecimalNumber { get; set; }
