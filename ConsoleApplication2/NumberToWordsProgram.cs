@@ -116,82 +116,6 @@ namespace ConsoleApplication2
             NumberToWordsProgram program = new NumberToWordsProgram();
             return program.BigNumberWord(inputNumber, aboveQuintillion);
         }
-        //public string ToEnglishQuintillion(UInt64 inputNumber)
-        //{
-        //    switch (inputNumber)
-        //    {
-        //        case 0: return "Zero";
-        //        case 1: return "One";
-        //        case 2: return "Two";
-        //        case 3: return "Three";
-        //        case 4: return "Four";
-        //        case 5: return "Five";
-        //        case 6: return "Six";
-        //        case 7: return "Seven";
-        //        case 8: return "Eight";
-        //        case 9: return "Nine";
-        //        case 10: return "Ten";
-        //        case 11: return "Eleven";
-        //        case 12: return "Twelve";
-        //        case 13: return "Thirteen";
-        //        case 14: return "Fourteen";
-        //        case 15: return "Fifteen";
-        //        case 16: return "Sixteen";
-        //        case 17: return "Seventeen";
-        //        case 18: return "Eighteen";
-        //        case 19: return "Nineteen";
-        //        case 20: return "Twenty";
-        //        case 30: return "Thirty";
-        //        case 40: return "Forty";
-        //        case 50: return "Fifty";
-        //        case 60: return "Sixty";
-        //        case 70: return "Seventy";
-        //        case 80: return "Eighty";
-        //        case 90: return "Ninety";
-        //        case 100: return "One Hundred";
-        //        case 1000: return "One Quintillion";
-        //        case 10000: return "Ten Quintillion";
-        //        case 100000: return "One Hundred Quintillion";
-        //        case 1000000: return "One Sextillion";
-        //        case 10000000: return "Ten Sextillion";
-        //        case 100000000: return "One Hundred Sextillion";
-        //        case 1000000000: return "One Septillion";
-        //        case 10000000000: return "Ten Septillion";
-        //        case 100000000000: return "One Hundred Septillion";
-        //        case 1000000000000: return "One Octillion";
-        //        case 10000000000000: return "Ten Octillion";
-        //        case 100000000000000: return "One Hundred Octillion";
-        //        case 1000000000000000: return "One Nonillion";
-        //        case 10000000000000000: return "Ten Nonillion";
-        //        case 100000000000000000: return "One Hundred Nonillion";
-        //        case 1000000000000000000: return "One Decillion";
-        //        case 10000000000000000000: return "Ten Decillion";
-        //    }
-
-        //    for (UInt64 iteration = 1; iteration <= 9; iteration++)
-        //    {
-        //        UInt64 iterationMultipleByTen = iteration * 10;
-        //        if ((inputNumber >= iterationMultipleByTen) && (inputNumber < iterationMultipleByTen + 10))
-        //        {
-        //            UInt64 r = inputNumber - iterationMultipleByTen;
-        //            //iterationMultipleByTen puluhan r satuan
-        //            return ToEnglishQuintillion(iterationMultipleByTen) + (r > 0 ? ("-" + ToEnglishQuintillion(r)) : "");
-        //        }
-        //    }
-
-        //    for (UInt64 iteration = 1; iteration <= 9; iteration++)
-        //    {
-        //        UInt64 iterationMultipleByTen = iteration * 100;
-        //        if ((inputNumber >= iterationMultipleByTen) && (inputNumber < iterationMultipleByTen + 100))
-        //        {
-        //            UInt64 r = inputNumber - iterationMultipleByTen;
-        //            // inputNumber ratusan , r sisa puluhan, loop ke iterasi puluhan
-        //            return ToEnglishQuintillion(iteration) + " Hundred" + (r > 0 ? (" " + ToEnglishQuintillion(r)) : "");
-        //        }
-        //    }
-        //    Program program = new Program();
-        //    return program.BigNumberWord(inputNumber, true);
-        //}
         public string BigNumberWord(UInt64 inputNumber, bool quintillion)
         {
             string output = "";
@@ -252,7 +176,7 @@ namespace ConsoleApplication2
                 int separator = inputNumber.Split('.').Length - 1;
                 if (separator > 1)
                 {
-                    throw new InvalidInputNumberDecimalException();
+                    throw new InvalidInputSeparatorException();
                 }
                 string[] parts = inputNumber.Split('.');
                 values.dollar = parts[0];
@@ -263,11 +187,15 @@ namespace ConsoleApplication2
                 int separator = inputNumber.Split(',').Length - 1;
                 if (separator > 1)
                 {
-                    throw new InvalidInputNumberDecimalException();
+                    throw new InvalidInputSeparatorException();
                 }
                 string[] parts = inputNumber.Split(',');
                 values.dollar = parts[0];
                 values.cent = parts[1];
+            }
+            else if (inputNumber.Contains(".") && inputNumber.Contains(","))
+            {
+                throw new InvalidInputSeparatorException();
             }
             else
             {
@@ -390,6 +318,10 @@ namespace ConsoleApplication2
             {
                 return (e.Message);
             }
+            catch (InvalidInputSeparatorException e)
+            {
+                return (e.Message);
+            }
             NumberToWordsProgram program = new NumberToWordsProgram();
             inputNumber = results.dollar;
             UInt64 decimalNumber = UInt64.Parse(results.cent);
@@ -404,6 +336,5 @@ namespace ConsoleApplication2
                 return program.BelowQuintillion(inputNumber, decimalNumber);
             }
         }
-
     }
 }

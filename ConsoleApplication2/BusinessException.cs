@@ -59,4 +59,20 @@ namespace ConsoleApplication2
         }
 
     }
+    [Serializable]
+    class InvalidInputSeparatorException : Exception
+    {
+        public InvalidInputSeparatorException()
+            : base(String.Format("Invalid Separator Cent"))
+        {
+
+        }
+
+        public InvalidInputSeparatorException(string name)
+            : base(String.Format("Invalid Separator Cent", name))
+        {
+
+        }
+
+    }
 }
